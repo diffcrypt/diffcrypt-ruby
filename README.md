@@ -45,7 +45,7 @@ config = YAML.safe_load(encryptor.decrypt(yaml))
 ### Rails
 
 Currently there is not native support for rails, but ActiveSupport can be monkeypatched to override
-the build in encrypter.
+the built in encrypter.
 
 ```ruby
 require 'diffcrypt/rails/encrypted_configuration'
