@@ -1,4 +1,7 @@
 ---
-secret_key_base: q/nKM+MSI0IAUUGTxn336uQDgDXbJxDu6GNI3vlL--I6DThmOJBJYK6SDZ--8wmyBE0O3tGtiZK8gw69Bg==
-aws:
-  access_key_id: HEnbrD9fiNclsf2hFNAyPw==--hbJkPko9OV1QXxAq--zEkhplu33aZ9a5YCPs6mlg==
+client: diffcrypt-0.1.1
+cipher: aes-128-gcm
+data:
+  secret_key_base: q/nKM+MSI0IAUUGTxn336uQDgDXbJxDu6GNI3vlL--I6DThmOJBJYK6SDZ--8wmyBE0O3tGtiZK8gw69Bg==
+  aws:
+    access_key_id: HEnbrD9fiNclsf2hFNAyPw==--hbJkPko9OV1QXxAq--zEkhplu33aZ9a5YCPs6mlg==

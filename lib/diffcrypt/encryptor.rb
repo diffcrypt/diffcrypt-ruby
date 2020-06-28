@@ -24,7 +24,7 @@ module Diffcrypt
     # @param [String] contents The raw YAML string to be encrypted
     def decrypt(contents)
       yaml = YAML.safe_load contents
-      decrypted = decrypt_hash yaml
+      decrypted = decrypt_hash yaml['data']
       YAML.dump decrypted
     end
 
@@ -43,11 +43,23 @@ module Diffcrypt
 
     # @param [String] contents The raw YAML string to be encrypted
     # @param [String, nil] original_encrypted_contents The original (encrypted) content to determine which keys have changed
+    # @return [String]
     def encrypt(contents, original_encrypted_contents = nil)
+      data = encrypt_data contents, original_encrypted_contents
+      YAML.dump(
+        'client' => "diffcrypt-#{Diffcrypt::VERSION}",
+        'cipher' => CIPHER,
+        'data' => data,
+      )
+    end
+
+    # @param [String] contents The raw YAML string to be encrypted
+    # @param [String, nil] original_encrypted_contents The original (encrypted) content to determine which keys have changed
+    # @return [Hash] Encrypted hash containing the data
+    def encrypt_data(contents, original_encrypted_contents = nil)
       yaml = YAML.safe_load contents
-      original_yaml = original_encrypted_contents ? YAML.safe_load(original_encrypted_contents) : nil
-      encrypted = encrypt_values yaml, original_yaml
-      YAML.dump encrypted
+      original_yaml = original_encrypted_contents ? YAML.safe_load(original_encrypted_contents)['data'] : nil
+      encrypt_values yaml, original_yaml
     end
 
     # @param [String] value Plain text string that needs encrypting
