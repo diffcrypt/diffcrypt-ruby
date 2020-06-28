@@ -79,7 +79,7 @@ module Diffcrypt
         data[key] = if value.is_a?(Hash) || value.is_a?(Array)
                       encrypt_values(value, original_encrypted_value)
                     else
-                      original_decrypted_value = original_data ? decrypt_string(original_encrypted_value) : nil
+                      original_decrypted_value = original_encrypted_value ? decrypt_string(original_encrypted_value) : nil
                       key_changed = original_decrypted_value.nil? || original_decrypted_value != value
                       key_changed ? encrypt_string(value) : original_encrypted_value
                     end

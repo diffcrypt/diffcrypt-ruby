@@ -75,4 +75,12 @@ class Diffcrypt::EncryptorTest < Minitest::Test
 
     assert_match expected_pattern, Diffcrypt::Encryptor.new(TEST_KEY).encrypt_data(updated_content, original_encrypted_content).to_yaml
   end
+
+  def test_it_assumes_changed_when_no_original_value
+    original_encrypted_content = "---\ndata:\n  secret_key_base_1: 88Ry6HESUoXBr6QUFXmni9zzfCIYt9qGNFvIWFcN--4xoecI5mqbNRBibI--62qPJbkzzh5h8lhFEFOSaQ==\n"
+    updated_content = "---\nsecret_key_base_1: secret_key_base_test\naws:\n  access_key_id: new_value\n"
+    expected_pattern = /---\nsecret_key_base_1: 88Ry6HESUoXBr6QUFXmni9zzfCIYt9qGNFvIWFcN--4xoecI5mqbNRBibI--62qPJbkzzh5h8lhFEFOSaQ==\naws:\n  access_key_id: #{ENCRYPTED_VALUE_PATTERN}\n/
+
+    assert_match expected_pattern, Diffcrypt::Encryptor.new(TEST_KEY).encrypt_data(updated_content, original_encrypted_content).to_yaml
+  end
 end
