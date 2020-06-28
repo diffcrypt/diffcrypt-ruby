@@ -21,13 +21,13 @@ class Diffcrypt::EncryptorTest < Minitest::Test
   end
 
   def test_it_encrypts_root_values
-    encrypted_content = <<~CONTENT
+    content = <<~CONTENT
       ---
       secret_key_base: secret_key_base_test
     CONTENT
     expected_pattern = /---\nsecret_key_base: #{ENCRYPTED_VALUE_PATTERN}\n/
 
-    assert_match expected_pattern, Diffcrypt::Encryptor.new(TEST_KEY).encrypt(encrypted_content)
+    assert_match expected_pattern, Diffcrypt::Encryptor.new(TEST_KEY).encrypt(content)
   end
 
   def test_it_decrypts_nested_structures
@@ -47,7 +47,7 @@ class Diffcrypt::EncryptorTest < Minitest::Test
   end
 
   def test_it_encrypts_nested_structures
-    encrypted_content = <<~CONTENT
+    content = <<~CONTENT
       ---
       secret_key_base: secret_key_base_test
       aws:
@@ -55,6 +55,16 @@ class Diffcrypt::EncryptorTest < Minitest::Test
     CONTENT
     expected_pattern = /---\nsecret_key_base: #{ENCRYPTED_VALUE_PATTERN}\naws:\n  access_key_id: #{ENCRYPTED_VALUE_PATTERN}\n/
 
-    assert_match expected_pattern, Diffcrypt::Encryptor.new(TEST_KEY).encrypt(encrypted_content)
+    assert_match expected_pattern, Diffcrypt::Encryptor.new(TEST_KEY).encrypt(content)
+  end
+
+  # Verifies that a change to one key does not cause the encrypted values for other keys to be recomputed
+  # Mainly used in conjunction with rails credentials editor
+  def test_it_only_updates_changed_values
+    original_encrypted_content = "---\nsecret_key_base_1: 88Ry6HESUoXBr6QUFXmni9zzfCIYt9qGNFvIWFcN--4xoecI5mqbNRBibI--62qPJbkzzh5h8lhFEFOSaQ==\naws:\n  secret_access_key: 88Ry6HESUoXBr6QUFXmni9zzfCIYt9qGNFvIWFcN--4xoecI5mqbNRBibI--62qPJbkzzh5h8lhFEFOSaQ==\n"
+    updated_content = "---\nsecret_key_base_1: secret_key_base_test\naws:\n  secret_access_key: secret_access_key_2"
+    expected_pattern = /---\nsecret_key_base_1: 88Ry6HESUoXBr6QUFXmni9zzfCIYt9qGNFvIWFcN--4xoecI5mqbNRBibI--62qPJbkzzh5h8lhFEFOSaQ==\naws:\n  secret_access_key: #{ENCRYPTED_VALUE_PATTERN}\n/
+
+    assert_match expected_pattern, Diffcrypt::Encryptor.new(TEST_KEY).encrypt(updated_content, original_encrypted_content)
   end
 end

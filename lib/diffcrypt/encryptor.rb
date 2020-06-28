@@ -1,3 +1,4 @@
+# rubocop:disable Layout/LineLength
 # frozen_string_literal: true
 
 require 'pathname'
@@ -41,9 +42,11 @@ module Diffcrypt
     end
 
     # @param [String] contents The raw YAML string to be encrypted
-    def encrypt(contents)
+    # @param [String, nil] original_encrypted_contents The original (encrypted) content to determine which keys have changed
+    def encrypt(contents, original_encrypted_contents = nil)
       yaml = YAML.safe_load contents
-      encrypted = encrypt_values yaml
+      original_yaml = original_encrypted_contents ? YAML.safe_load(original_encrypted_contents) : nil
+      encrypted = encrypt_values yaml, original_yaml
       YAML.dump encrypted
     end
 
@@ -53,18 +56,24 @@ module Diffcrypt
       @encryptor.encrypt_and_sign value
     end
 
+    # TODO: Fix the complexity of this method
+    # rubocop:disable Metrics/PerceivedComplexity, Metrics/MethodLength, Metrics/CyclomaticComplexity
     # @param [Hash] keys
     # @return [Hash]
-    def encrypt_values(data)
+    def encrypt_values(data, original_data = nil)
       data.each do |key, value|
+        original_encrypted_value = original_data ? original_data[key] : nil
         data[key] = if value.is_a?(Hash) || value.is_a?(Array)
-                      encrypt_values(value)
+                      encrypt_values(value, original_encrypted_value)
                     else
-                      encrypt_string value
+                      original_decrypted_value = original_data ? decrypt_string(original_encrypted_value) : nil
+                      key_changed = original_decrypted_value.nil? || original_decrypted_value != value
+                      key_changed ? encrypt_string(value) : original_encrypted_value
                     end
       end
       data
     end
+    # rubocop:enable Metrics/PerceivedComplexity, Metrics/MethodLength, Metrics/CyclomaticComplexity
 
     # @param [String] value The encrypted value that needs decrypting
     # @return [String]
@@ -73,3 +82,5 @@ module Diffcrypt
     end
   end
 end
+
+# rubocop:enable Layout/LineLength

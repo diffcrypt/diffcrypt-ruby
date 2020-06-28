@@ -39,10 +39,10 @@ module Diffcrypt
         ''
       end
 
-      def write(contents)
+      def write(contents, original_encrypted_contents = nil)
         deserialize(contents)
 
-        IO.binwrite "#{content_path}.tmp", encrypt(contents)
+        IO.binwrite "#{content_path}.tmp", encrypt(contents, original_encrypted_contents)
         FileUtils.mv "#{content_path}.tmp", content_path
       end
 
@@ -62,6 +62,7 @@ module Diffcrypt
 
       protected
 
+      # rubocop:disable Metrics/AbcSize
       def writing(contents)
         tmp_file = "#{Process.pid}.#{content_path.basename.to_s.chomp('.enc')}"
         tmp_path = Pathname.new File.join(Dir.tmpdir, tmp_file)
@@ -71,15 +72,17 @@ module Diffcrypt
 
         updated_contents = tmp_path.binread
 
-        write(updated_contents) if updated_contents != contents
+        write(updated_contents, content_path.binread)
       ensure
         FileUtils.rm(tmp_path) if tmp_path&.exist?
       end
+      # rubocop:enable Metrics/AbcSize
 
-      # @param [String] contents
-      # @return [String]
-      def encrypt(contents)
-        encryptor.encrypt contents
+      # @param [String] contents The new content to be encrypted
+      # @param [String] diff_against The original (encrypted) content to determine which keys have changed
+      # @return [String] Encrypted content to commit
+      def encrypt(contents, original_encrypted_contents = nil)
+        encryptor.encrypt contents, original_encrypted_contents
       end
 
       # @param [String] contents
