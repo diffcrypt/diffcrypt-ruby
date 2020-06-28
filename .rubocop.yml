@@ -1,0 +1,15 @@
+AllCops:
+  NewCops: enable
+
+Style/ClassAndModuleChildren:
+  Exclude:
+    - test/**/*_test.rb
+Style/Documentation:
+  Enabled: false
+Metrics/MethodLength:
+  Exclude:
+    - test/**/*_test.rb
+
+Layout/LineLength:
+  Exclude:
+    - test/**/*_test.rb
