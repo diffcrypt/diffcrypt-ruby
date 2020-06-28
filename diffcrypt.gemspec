@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Marc Qualie']
   spec.email         = ['marc@marcqualie.com']
 
-  spec.summary       = 'Diffable encrypted files'
-  spec.description   = 'Diffable encrypted files'
+  spec.summary       = 'Diffable encrypted configuration files'
+  spec.description   = 'Diffable encrypted configuration files that can be safely committed into a git repository'
   spec.homepage      = 'https://github.com/marcqualie/diffcrypt'
   spec.license       = 'MIT'
   spec.required_ruby_version = Gem::Requirement.new('>= 2.3.0')
