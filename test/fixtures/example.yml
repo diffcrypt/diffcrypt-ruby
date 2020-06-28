@@ -1,0 +1,4 @@
+---
+secret_key_base: secret_key_base_test
+aws:
+  access_key_id: AKIXXX

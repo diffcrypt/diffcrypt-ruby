@@ -2,13 +2,12 @@
 
 require 'test_helper'
 
-ENCRYPTED_VALUE_PATTERN = '([a-z0-9A-Z=/+]+)\-\-([a-z0-9A-Z=/+]+)\-\-([a-z0-9A-Z=/+]+)'
+# Since the encrypted values use openssl and are non-deterministic, we can never know the
+# actual value to test against. All we can do is ensure the value is in the correct format
+# for the encrypted content, which verifies it's not in the original state
+ENCRYPTED_VALUE_PATTERN = %('?([a-z0-9A-Z=/+]+)\-\-([a-z0-9A-Z=/+]+)\-\-([a-z0-9A-Z=/+]+)'?)
 
 class Diffcrypt::EncryptorTest < Minitest::Test
-  def test_that_it_has_a_version_number
-    refute_nil ::Diffcrypt::VERSION
-  end
-
   def test_it_decrypts_root_values
     encrypted_content = <<~CONTENT
       secret_key_base: 88Ry6HESUoXBr6QUFXmni9zzfCIYt9qGNFvIWFcN--4xoecI5mqbNRBibI--62qPJbkzzh5h8lhFEFOSaQ==

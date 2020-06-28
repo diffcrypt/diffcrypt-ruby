@@ -29,7 +29,7 @@ Or install it yourself as:
 
 ```ruby
 encryptor = Diffcrypt::Encryptor.new('99e1f86b9e61f24c56ff4108dd415091')
-yaml = File.read('tmp/example.yml')
+yaml = File.read('test/fixtures/example.yml')
 encrypted = encryptor.encrypt(yaml)
 File.write('tmp/example.yml.enc', encrypted)
 ```
@@ -38,8 +38,29 @@ File.write('tmp/example.yml.enc', encrypted)
 
 ```ruby
 encryptor = Diffcrypt::Encryptor.new('99e1f86b9e61f24c56ff4108dd415091')
-yaml = File.read('tmp/example.yml.enc')
+yaml = File.read('test/fixtures/example.yml.enc')
 config = YAML.safe_load(encryptor.decrypt(yaml))
+```
+
+### Rails
+
+Currently there is not native support for rails, but ActiveSupport can be monkeypatched to override
+the build in encrypter.
+
+```ruby
+require 'diffcrypt/rails/encrypted_configuration'
+module Rails
+  class Application
+    def encrypted(path, key_path: 'config/master.key', env_key: 'RAILS_MASTER_KEY')
+      Diffcrypt::Rails::EncryptedConfiguration.new(
+        config_path: Rails.root.join(path),
+        key_path: Rails.root.join(key_path),
+        env_key: env_key,
+        raise_if_missing_key: config.require_master_key,
+      )
+    end
+  end
+end
 ```
 
 

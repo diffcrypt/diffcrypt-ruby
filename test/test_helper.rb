@@ -7,6 +7,6 @@ require 'diffcrypt'
 #
 # @example Generate an expected value for tests
 #   Diffcrypt::Encryptor.new('99e1f86b9e61f24c56ff4108dd415091').encrypt_string('some value here')
-TEST_KEY = '99e1f86b9e61f24c56ff4108dd415091'
+TEST_KEY = File.read("#{__dir__}/fixtures/master.key").strip
 
 require 'minitest/autorun'
