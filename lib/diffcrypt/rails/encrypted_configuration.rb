@@ -29,6 +29,13 @@ module Diffcrypt
         @active_support_encryptor = ActiveSupport::MessageEncryptor.new([key].pack('H*'), cipher: Encryptor::CIPHER)
       end
 
+      # Determines if file is using the diffable format, or still
+      # encrypted using default rails credentials format
+      # @return [Boolean]
+      def content_path_diffable?
+        content_path.binread.index('---')&.zero?
+      end
+
       # Allow a config to be started without a file present
       # @return [String] Returns decryped content or a blank string
       def read
@@ -72,7 +79,7 @@ module Diffcrypt
 
         updated_contents = tmp_path.binread
 
-        write(updated_contents, content_path.binread)
+        write(updated_contents, content_path_diffable? && content_path.binread)
       ensure
         FileUtils.rm(tmp_path) if tmp_path&.exist?
       end
