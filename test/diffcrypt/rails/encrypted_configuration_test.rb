@@ -10,7 +10,7 @@ class Diffcrypt::Rails::EncryptedConfigurationTest < Minitest::Test
       config_path: "#{__dir__}/../../fixtures/example.yml.enc",
       key_path: "#{__dir__}/../../fixtures/master.key",
       env_key: 'RAILS_MASTER_KEY',
-      raise_if_missing_key: false
+      raise_if_missing_key: false,
     )
   end
 
