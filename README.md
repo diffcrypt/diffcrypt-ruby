@@ -1,6 +1,8 @@
 # Diffcrypt
 
 [![Gem Version](https://badge.fury.io/rb/diffcrypt.svg)](https://rubygems.org/gems/diffcrypt)
+[![CircleCI](https://circleci.com/gh/marcqualie/diffcrypt.svg?style=svg)](https://circleci.com/gh/marcqualie/diffcrypt)
+
 
 Diffable encrypted files that you can safely commit into your repo.
 
