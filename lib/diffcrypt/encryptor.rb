@@ -8,6 +8,8 @@ require 'yaml'
 
 require 'active_support/message_encryptor'
 
+require_relative './version'
+
 module Diffcrypt
   class Encryptor
     CIPHER = 'aes-128-gcm'

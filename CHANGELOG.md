@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
+## [Unreleased]
+
+## Added
+
+- CLI: Use diffcrypt from command line of any project without requiring ruby integration
+- CLI: `diffcrypt encrypt` Directly encrypt any file and output the contents
+- CLI: `diffcrypt decrypt` Directly decrypt any file and output the contents
+
+
+
 ## [0.2.0] - 2020-06-28
 
 ### Added
