@@ -8,6 +8,7 @@ module Diffcrypt
     desc 'decrypt <path>', 'Decrypt a file'
     method_option :key, aliases: %i[k], required: true
     def decrypt(path)
+      ensure_file_exists(path)
       contents = File.read(path)
       puts encryptor.decrypt(contents)
     end
@@ -15,6 +16,7 @@ module Diffcrypt
     desc 'encrypt <path>', 'Encrypt a file'
     method_option :key, aliases: %i[k], required: true
     def encrypt(path)
+      ensure_file_exists(path)
       contents = File.read(path)
       puts encryptor.encrypt(contents)
     end
@@ -31,6 +33,10 @@ module Diffcrypt
 
       def encryptor
         @encryptor ||= Encryptor.new(key)
+      end
+
+      def ensure_file_exists(path)
+        abort('[ERROR] File does not exist') unless File.exist?(path)
       end
     end
   end
