@@ -20,7 +20,7 @@ And then execute:
 
     $ bundle install
 
-Or install it yourself as:
+Or install it globally (to use the CLI from any project):
 
     $ gem install diffcrypt
 
@@ -28,8 +28,24 @@ Or install it yourself as:
 
 ## Usage
 
+There are a few ways to use the library, depending on how advanced your use case is.
 
-### Encrypt existing file
+
+### CLI
+
+The easiest way to get started is to use the CLI.
+
+```shell
+diffcrypt decrypt -k $(cat test/fixtures/master.key) test/fixtures/example.yml.enc
+diffcrypt encrypt -k $(cat test/fixtures/master.key) test/fixtures/example.yml
+```
+
+
+### Ruby
+
+A direct API is exposed so `Diffcrypt::Encryptor` can be used in any ruby project.
+
+**NOTE:** This API may change any time until v1.0
 
 ```ruby
 encryptor = Diffcrypt::Encryptor.new('99e1f86b9e61f24c56ff4108dd415091')
@@ -38,18 +54,16 @@ encrypted = encryptor.encrypt(yaml)
 File.write('tmp/example.yml.enc', encrypted)
 ```
 
-### Decrypt a file
-
 ```ruby
 encryptor = Diffcrypt::Encryptor.new('99e1f86b9e61f24c56ff4108dd415091')
 yaml = File.read('test/fixtures/example.yml.enc')
 config = YAML.safe_load(encryptor.decrypt(yaml))
 ```
 
-### Rails
+### Ruby on Rails
 
 Currently there is not native support for rails, but ActiveSupport can be monkeypatched to override
-the built in encrypter.
+the built in encrypter. All existing `rails credentials:edit` also work with this method.
 
 ```ruby
 require 'diffcrypt/rails/encrypted_configuration'
