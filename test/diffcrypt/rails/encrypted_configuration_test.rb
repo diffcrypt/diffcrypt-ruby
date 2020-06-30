@@ -8,7 +8,7 @@ class Diffcrypt::Rails::EncryptedConfigurationTest < Minitest::Test
   def configuration
     Diffcrypt::Rails::EncryptedConfiguration.new(
       config_path: "#{__dir__}/../../fixtures/example.yml.enc",
-      key_path: "#{__dir__}/../../fixtures/master.key",
+      key_path: "#{__dir__}/../../fixtures/aes-128-gcm.key",
       env_key: 'RAILS_MASTER_KEY',
       raise_if_missing_key: false,
     )

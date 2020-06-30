@@ -36,8 +36,8 @@ There are a few ways to use the library, depending on how advanced your use case
 The easiest way to get started is to use the CLI.
 
 ```shell
-diffcrypt decrypt -k $(cat test/fixtures/master.key) test/fixtures/example.yml.enc
-diffcrypt encrypt -k $(cat test/fixtures/master.key) test/fixtures/example.yml
+diffcrypt decrypt -k $(cat test/fixtures/aes-128-gcm.key) test/fixtures/example.yml.enc
+diffcrypt encrypt -k $(cat test/fixtures/aes-128-gcm.key) test/fixtures/example.yml
 ```
 
 
@@ -69,7 +69,7 @@ the built in encrypter. All existing `rails credentials:edit` also work with thi
 require 'diffcrypt/rails/encrypted_configuration'
 module Rails
   class Application
-    def encrypted(path, key_path: 'config/master.key', env_key: 'RAILS_MASTER_KEY')
+    def encrypted(path, key_path: 'config/aes-128-gcm.key', env_key: 'RAILS_MASTER_KEY')
       Diffcrypt::Rails::EncryptedConfiguration.new(
         config_path: Rails.root.join(path),
         key_path: Rails.root.join(key_path),
