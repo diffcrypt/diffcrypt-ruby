@@ -10,7 +10,7 @@ ENCRYPTED_VALUE_PATTERN = %(['"]?([a-z0-9A-Z=/+]+)\-\-([a-z0-9A-Z=/+]+)\-\-([a-z
 class Diffcrypt::EncryptorTest < Minitest::Test
   def test_it_includes_client_info_at_root
     content = "---\nkey: value"
-    expected_pattern = /---\nclient: diffcrypt-#{Diffcrypt::VERSION}\ncipher: #{Diffcrypt::Encryptor::CIPHER}\nchecksum: [a-z0-9]{32}\ndata:\n  key: #{ENCRYPTED_VALUE_PATTERN}\n/
+    expected_pattern = /---\nclient: diffcrypt-#{Diffcrypt::VERSION}\ncipher: #{Diffcrypt::Encryptor::DEFAULT_CIPHER}\nchecksum: [a-z0-9]{32}\ndata:\n  key: #{ENCRYPTED_VALUE_PATTERN}\n/
     assert_match expected_pattern, Diffcrypt::Encryptor.new(TEST_KEY).encrypt(content)
   end
 

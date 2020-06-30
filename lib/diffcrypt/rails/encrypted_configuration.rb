@@ -20,13 +20,18 @@ module Diffcrypt
       delegate_missing_to :options
 
       def initialize(config_path:, key_path:, env_key:, raise_if_missing_key:)
-        @content_path = Pathname.new(File.absolute_path(config_path)).yield_self do |path|
+        @content_path = Pathname.new(::File.absolute_path(config_path)).yield_self do |path|
           path.symlink? ? path.realpath : path
         end
         @key_path = Pathname.new(key_path)
         @env_key = env_key
         @raise_if_missing_key = raise_if_missing_key
-        @active_support_encryptor = ActiveSupport::MessageEncryptor.new([key].pack('H*'), cipher: Encryptor::CIPHER)
+
+        # TODO: Use Diffcrypt::File to ensure correct cipher is used
+        @active_support_encryptor = ActiveSupport::MessageEncryptor.new(
+          [key].pack('H*'),
+          cipher: Encryptor::DEFAULT_CIPHER,
+        )
       end
 
       # Determines if file is using the diffable format, or still
@@ -72,7 +77,7 @@ module Diffcrypt
       # rubocop:disable Metrics/AbcSize
       def writing(contents)
         tmp_file = "#{Process.pid}.#{content_path.basename.to_s.chomp('.enc')}"
-        tmp_path = Pathname.new File.join(Dir.tmpdir, tmp_file)
+        tmp_path = Pathname.new ::File.join(Dir.tmpdir, tmp_file)
         tmp_path.binwrite contents
 
         yield tmp_path

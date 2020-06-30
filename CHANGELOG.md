@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - CLI: `diffcrypt generate-key` command to generate a new key for a cipher
+- Internal: Encryptor can now use other ciphers than the default
 
 
 
