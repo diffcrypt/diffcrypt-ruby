@@ -16,10 +16,11 @@ module Diffcrypt
 
     desc 'encrypt <path>', 'Encrypt a file'
     method_option :key, aliases: %i[k], required: true
+    method_option :cipher, default: Encryptor::DEFAULT_CIPHER
     def encrypt(path)
       file = File.new(path)
       ensure_file_exists(file)
-      say file.encrypt(key)
+      say file.encrypt(key, cipher: options[:cipher])
     end
 
     desc 'generate-key', 'Generate a 32 bit key'

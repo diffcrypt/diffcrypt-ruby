@@ -26,10 +26,10 @@ module Diffcrypt
       @read ||= ::File.read(@path)
     end
 
-    def encrypt(key)
+    def encrypt(key, cipher: DEFAULT_CIPHER)
       return read if encrypted?
 
-      Encryptor.new(key).encrypt(read)
+      Encryptor.new(key, cipher: cipher).encrypt(read)
     end
 
     def decrypt(key)
