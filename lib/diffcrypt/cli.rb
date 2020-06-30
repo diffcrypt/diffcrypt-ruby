@@ -21,6 +21,12 @@ module Diffcrypt
       puts encryptor.encrypt(contents)
     end
 
+    desc 'generate-key', 'Generate a 32 bit key'
+    method_option :cipher, default: Encryptor::CIPHER
+    def generate_key
+      say Encryptor.generate_key(options[:cipher])
+    end
+
     desc 'version', 'Show client version'
     def version
       say Diffcrypt::VERSION

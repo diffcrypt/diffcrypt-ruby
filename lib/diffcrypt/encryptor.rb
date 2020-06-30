@@ -14,8 +14,8 @@ module Diffcrypt
   class Encryptor
     CIPHER = 'aes-128-gcm'
 
-    def self.generate_key
-      SecureRandom.hex(ActiveSupport::MessageEncryptor.key_len(CIPHER))
+    def self.generate_key(cipher = CIPHER)
+      SecureRandom.hex(ActiveSupport::MessageEncryptor.key_len(cipher))
     end
 
     def initialize(key)

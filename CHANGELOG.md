@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- CLI: `diffcrypt generate-key` command to generate a new key for a cipher
+
 ### Fixed
 
 - Thor deprecation error no longer shows on CLI failure
