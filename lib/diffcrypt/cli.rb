@@ -38,6 +38,10 @@ module Diffcrypt
       def ensure_file_exists(path)
         abort('[ERROR] File does not exist') unless File.exist?(path)
       end
+
+      def self.exit_on_failure?
+        true
+      end
     end
   end
 end
