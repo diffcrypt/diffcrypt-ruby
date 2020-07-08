@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
-## [Unreleased]
+## [0.3.1] - 2020-07-08
 
 ### Added
 
@@ -16,6 +16,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Thor deprecation error no longer shows on CLI failure
+
+### Changed
+
+- Thor 0.20+ can now be used alongside this gem
 
 
 
