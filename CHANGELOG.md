@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Thor deprecation error no longer shows on CLI failure
 
+### Changed
+
+- Thor 0.20+ can now be used alongside this gem
+
 
 
 ## [0.3.0] - 2020-06-30
