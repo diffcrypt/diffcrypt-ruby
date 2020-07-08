@@ -7,11 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
-## [0.3.1] - 2020-07-08
+## [Unreleased]
 
 ### Added
 
 - CLI: `diffcrypt generate-key` command to generate a new key for a cipher
+
+
+
+## [0.3.1] - 2020-07-08
 
 ### Fixed
 
