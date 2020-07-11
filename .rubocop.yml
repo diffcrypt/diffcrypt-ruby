@@ -11,6 +11,8 @@ Metrics/MethodLength:
     - test/**/*_test.rb
 Style/TrailingCommaInArguments:
   EnforcedStyleForMultiline: consistent_comma
+Style/AccessorGrouping:
+  EnforcedStyle: separated
 
 Layout/LineLength:
   Exclude:
