@@ -7,11 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
-## [Unreleased]
+## [0.3.2] - 2020-07-20
 
 ### Added
 
 - CLI: `diffcrypt generate-key` command to generate a new key for a cipher
+- Internal: Library now generates and publishes code coverage publically on Code Climate
+
+### Changed
+
+- Only support ruby 2.5+ since 2.4 is no longer maintained
+
+### Removed
+
+- No longer geneate and store a checksum. Backwards compatible since it wasn't used
 
 
 
