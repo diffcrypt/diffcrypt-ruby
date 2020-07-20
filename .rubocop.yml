@@ -9,6 +9,8 @@ Style/Documentation:
 Metrics/MethodLength:
   Exclude:
     - test/**/*_test.rb
+TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: consistent_comma
 Style/TrailingCommaInArguments:
   EnforcedStyleForMultiline: consistent_comma
 Style/AccessorGrouping:
