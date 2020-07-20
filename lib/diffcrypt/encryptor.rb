@@ -51,7 +51,6 @@ module Diffcrypt
       YAML.dump(
         'client' => "diffcrypt-#{Diffcrypt::VERSION}",
         'cipher' => CIPHER,
-        'checksum' => Digest::MD5.hexdigest(Marshal.dump(data)),
         'data' => data,
       )
     end
