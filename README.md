@@ -83,6 +83,17 @@ end
 
 
 
+## Converting between ciphers
+
+Sometimes you may want to rotate the cipher used on a file. You cab do this rogramtically using the ruby code above, or you can also chain the CLI commands like so:
+
+```shell
+diffcrypt decrypt -k $(cat test/fixtures/aes-128-gcm.key) test/fixtures/example.yml.enc > test/fixtures/example.128.yml \
+&& diffcrypt encrypt --cipher aes-256-gcm -k $(cat test/fixtures/aes-256-gcm.key) test/fixtures/example.128.yml > test/fixtures/example.256.yml.enc && rm test/fixtures/example.128.yml
+```
+
+
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
