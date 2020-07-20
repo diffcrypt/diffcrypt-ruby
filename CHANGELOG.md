@@ -20,7 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
-- No longer geneate and store a checksum. Backwards compatible since it wasn't used
+- No longer generate and store a checksum. Backwards compatible since it wasn't used
 
 
 
