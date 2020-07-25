@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Explicit FileUtils require to avoid potentialy warning logs
+- Explicit FileUtils require to avoid potentially warning logs
 
 
 
