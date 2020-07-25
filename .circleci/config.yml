@@ -4,6 +4,7 @@ jobs:
   build:
     docker:
       - image: circleci/ruby:2.6.6
+    working_directory: /mnt/ramdisk
     steps:
       - checkout
       - run: bundle install
