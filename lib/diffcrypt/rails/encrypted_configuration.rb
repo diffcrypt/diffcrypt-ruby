@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'fileutils'
 require 'pathname'
 require 'tmpdir'
 
@@ -50,7 +51,7 @@ module Diffcrypt
         deserialize(contents)
 
         IO.binwrite "#{content_path}.tmp", encrypt(contents, original_encrypted_contents)
-        FileUtils.mv "#{content_path}.tmp", content_path
+        ::FileUtils.mv "#{content_path}.tmp", content_path
       end
 
       def config
@@ -81,7 +82,7 @@ module Diffcrypt
 
         write(updated_contents, content_path_diffable? && content_path.binread)
       ensure
-        FileUtils.rm(tmp_path) if tmp_path&.exist?
+        ::FileUtils.rm(tmp_path) if tmp_path&.exist?
       end
       # rubocop:enable Metrics/AbcSize
 
