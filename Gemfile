@@ -8,5 +8,5 @@ gemspec
 gem 'minitest', '~> 5.0'
 gem 'rake', '~> 13.0'
 gem 'rubocop', '~> 0.89.1'
-gem 'simplecov', '~> 0.17.0', require: false # CodeClimate not compatible with 0.18+ yet - https://github.com/codeclimate/test-reporter/issues/413
+gem 'simplecov', '~> 0.19.0', require: false # CodeClimate not compatible with 0.18+ yet - https://github.com/codeclimate/test-reporter/issues/413
 gem 'simplecov-lcov', '< 0.8'
