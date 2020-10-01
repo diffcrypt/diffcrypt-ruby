@@ -34,10 +34,11 @@ module Diffcrypt
       Encryptor.new(key, cipher: cipher).encrypt(read)
     end
 
+    # TODO: Add a test to verify this does descrypt properly
     def decrypt(key)
       return read unless encrypted?
 
-      Encryptor.new(key).decrypt(read)
+      Encryptor.new(key, cipher: cipher).decrypt(read)
     end
 
     def to_yaml
