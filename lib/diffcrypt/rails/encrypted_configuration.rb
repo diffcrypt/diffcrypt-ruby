@@ -9,6 +9,8 @@ require 'active_support/core_ext/hash'
 require 'active_support/core_ext/module/delegation'
 require 'active_support/core_ext/object/inclusion'
 
+require 'diffcrypt/file'
+
 module Diffcrypt
   module Rails
     class EncryptedConfiguration
@@ -24,15 +26,10 @@ module Diffcrypt
         @content_path = Pathname.new(::File.absolute_path(config_path)).yield_self do |path|
           path.symlink? ? path.realpath : path
         end
+        @diffcrypt_file = Diffcrypt::File.new(@content_path)
         @key_path = Pathname.new(key_path)
         @env_key = env_key
         @raise_if_missing_key = raise_if_missing_key
-
-        # TODO: Use Diffcrypt::File to ensure correct cipher is used
-        @active_support_encryptor = ActiveSupport::MessageEncryptor.new(
-          [key].pack('H*'),
-          cipher: Encryptor::DEFAULT_CIPHER,
-        )
       end
 
       # Determines if file is using the diffable format, or still
@@ -108,9 +105,18 @@ module Diffcrypt
         end
       end
 
+      # Rails applications with an existing credentials file, the inbuilt active support encryptor should be used
+      # @return [ActiveSupport::MessageEncryptor]
+      def active_support_encryptor
+        @active_support_encryptor = ActiveSupport::MessageEncryptor.new(
+          [key].pack('H*'),
+          cipher: @diffcrypt_file.cipher,
+        )
+      end
+
       # @return [Encryptor]
       def encryptor
-        @encryptor ||= Encryptor.new key
+        @encryptor ||= Encryptor.new key, cipher: @diffcrypt_file.cipher
       end
 
       def read_env_key
