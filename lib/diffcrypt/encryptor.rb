@@ -12,15 +12,16 @@ require_relative './version'
 
 module Diffcrypt
   class Encryptor
-    CIPHER = 'aes-128-gcm'
+    DEFAULT_CIPHER = 'aes-128-gcm'
 
-    def self.generate_key(cipher = CIPHER)
+    def self.generate_key(cipher = DEFAULT_CIPHER)
       SecureRandom.hex(ActiveSupport::MessageEncryptor.key_len(cipher))
     end
 
-    def initialize(key)
+    def initialize(key, cipher: DEFAULT_CIPHER)
       @key = key
-      @encryptor ||= ActiveSupport::MessageEncryptor.new([key].pack('H*'), cipher: CIPHER)
+      @cipher = cipher
+      @encryptor ||= ActiveSupport::MessageEncryptor.new([key].pack('H*'), cipher: cipher)
     end
 
     # @param [String] contents The raw YAML string to be encrypted
@@ -50,7 +51,7 @@ module Diffcrypt
       data = encrypt_data contents, original_encrypted_contents
       YAML.dump(
         'client' => "diffcrypt-#{Diffcrypt::VERSION}",
-        'cipher' => CIPHER,
+        'cipher' => @cipher,
         'data' => data,
       )
     end
