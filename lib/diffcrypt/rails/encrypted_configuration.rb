@@ -108,7 +108,7 @@ module Diffcrypt
       # Rails applications with an existing credentials file, the inbuilt active support encryptor should be used
       # @return [ActiveSupport::MessageEncryptor]
       def active_support_encryptor
-        @active_support_encryptor = ActiveSupport::MessageEncryptor.new(
+        @active_support_encryptor ||= ActiveSupport::MessageEncryptor.new(
           [key].pack('H*'),
           cipher: @diffcrypt_file.cipher,
         )
