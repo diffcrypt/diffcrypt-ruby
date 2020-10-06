@@ -85,7 +85,7 @@ end
 
 ## Converting between ciphers
 
-Sometimes you may want to rotate the cipher used on a file. You cab do this rogramtically using the ruby code above, or you can also chain the CLI commands like so:
+Sometimes you may want to rotate the cipher used on a file. You can do this programmatically using the ruby code above, or you can also chain the CLI commands like so:
 
 ```shell
 diffcrypt decrypt -k $(cat test/fixtures/aes-128-gcm.key) test/fixtures/example.yml.enc > test/fixtures/example.128.yml \
