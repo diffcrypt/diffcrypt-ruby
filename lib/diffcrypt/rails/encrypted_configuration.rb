@@ -99,7 +99,7 @@ module Diffcrypt
       # @return [String]
       def decrypt(contents)
         if contents.index('---').nil?
-          @active_support_encryptor.decrypt_and_verify contents
+          active_support_encryptor.decrypt_and_verify contents
         else
           encryptor.decrypt contents
         end
