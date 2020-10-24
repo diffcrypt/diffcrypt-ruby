@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   bundle:
     docker:
-      - image: circleci/ruby:2.6.6
+      - image: circleci/ruby:2.7.1
     working_directory: /mnt/ramdisk
     steps:
       - checkout
@@ -22,7 +22,7 @@ jobs:
 
   test:
     docker:
-      - image: circleci/ruby:2.6.6
+      - image: circleci/ruby:2.7.1
     working_directory: /mnt/ramdisk
     steps:
       - checkout
@@ -48,7 +48,7 @@ jobs:
             ./cc-test-reporter after-build --coverage-input-type lcov --exit-code $?
   rubocop:
     docker:
-      - image: circleci/ruby:2.6.6
+      - image: circleci/ruby:2.7.1
     working_directory: /mnt/ramdisk
     steps:
       - checkout
