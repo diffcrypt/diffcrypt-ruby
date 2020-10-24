@@ -67,7 +67,7 @@ jobs:
 
 workflows:
   version: 2
-  test:
+  all:
     jobs:
       - bundle
       - test:
