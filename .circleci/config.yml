@@ -9,14 +9,14 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - bundler-{{ checksum "Gemfile.lock" }}-{{ .Environment.CACHE_VERSION }}
+            - bundler-{{ checksum "diffcrypt.gemspec" }}-{{ .Environment.CACHE_VERSION }}
       - run:
           name: bundle install
           command: |
             gem install bundler -v '2.1.4'
             bundle install --path=vendor/bundle --jobs=4 --retry=3
       - save_cache:
-          key: bundler-{{ checksum "Gemfile.lock" }}-{{ .Environment.CACHE_VERSION }}
+          key: bundler-{{ checksum "diffcrypt.gemspec" }}-{{ .Environment.CACHE_VERSION }}
           paths:
             - vendor/bundle
 
@@ -28,7 +28,7 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - bundler-{{ checksum "Gemfile.lock" }}-{{ .Environment.CACHE_VERSION }}
+            - bundler-{{ checksum "diffcrypt.gemspec" }}-{{ .Environment.CACHE_VERSION }}
       - run:
           name: bundle install
           command: |
@@ -54,7 +54,7 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - bundler-{{ checksum "Gemfile.lock" }}-{{ .Environment.CACHE_VERSION }}
+            - bundler-{{ checksum "diffcrypt.gemspec" }}-{{ .Environment.CACHE_VERSION }}
       - run:
           name: bundle install
           command: |
