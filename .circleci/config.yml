@@ -70,5 +70,9 @@ workflows:
   test:
     jobs:
       - bundle
-      - test
-      - rubocop
+      - test:
+          requires:
+            - bundle
+      - rubocop:
+          requires:
+            - bundle
