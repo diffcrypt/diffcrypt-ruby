@@ -11,7 +11,13 @@ class Diffcrypt::EncryptorTest < Minitest::Test
   def test_it_includes_client_info_at_root
     content = "---\nkey: value"
     expected_pattern = /---\nclient: diffcrypt-#{Diffcrypt::VERSION}\ncipher: #{Diffcrypt::Encryptor::DEFAULT_CIPHER}\ndata:\n  key: #{ENCRYPTED_VALUE_PATTERN}\n/
-    assert_match expected_pattern, Diffcrypt::Encryptor.new(TEST_KEY).encrypt(content)
+    assert_match expected_pattern, Diffcrypt::Encryptor.new(TEST_KEY_256).encrypt(content)
+  end
+
+  def test_it_includes_cipher_when_not_default
+    content = "---\nkey: value"
+    expected_pattern = /---\nclient: diffcrypt-#{Diffcrypt::VERSION}\ncipher: aes-128-gcm\ndata:\n  key: #{ENCRYPTED_VALUE_PATTERN}\n/
+    assert_match expected_pattern, Diffcrypt::Encryptor.new(TEST_KEY_128, cipher: 'aes-128-gcm').encrypt(content)
   end
 
   def test_it_decrypts_root_values
@@ -24,7 +30,7 @@ class Diffcrypt::EncryptorTest < Minitest::Test
       secret_key_base: secret_key_base_test
     CONTENT
 
-    assert_equal Diffcrypt::Encryptor.new(TEST_KEY).decrypt(encrypted_content), expected
+    assert_equal Diffcrypt::Encryptor.new(TEST_KEY_128, cipher: 'aes-128-gcm').decrypt(encrypted_content), expected
   end
 
   def test_it_encrypts_root_values
@@ -34,7 +40,7 @@ class Diffcrypt::EncryptorTest < Minitest::Test
     CONTENT
     expected_pattern = /---\nsecret_key_base: #{ENCRYPTED_VALUE_PATTERN}\n/
 
-    assert_match expected_pattern, Diffcrypt::Encryptor.new(TEST_KEY).encrypt_data(content).to_yaml
+    assert_match expected_pattern, Diffcrypt::Encryptor.new(TEST_KEY_128, cipher: 'aes-128-gcm').encrypt_data(content).to_yaml
   end
 
   def test_it_decrypts_nested_structures
@@ -51,7 +57,7 @@ class Diffcrypt::EncryptorTest < Minitest::Test
         access_key_id: AKIAXXX
     CONTENT
 
-    assert_equal Diffcrypt::Encryptor.new(TEST_KEY).decrypt(encrypted_content), expected
+    assert_equal Diffcrypt::Encryptor.new(TEST_KEY_128, cipher: 'aes-128-gcm').decrypt(encrypted_content), expected
   end
 
   def test_it_encrypts_nested_structures
@@ -63,7 +69,7 @@ class Diffcrypt::EncryptorTest < Minitest::Test
     CONTENT
     expected_pattern = /---\nsecret_key_base: #{ENCRYPTED_VALUE_PATTERN}\naws:\n  access_key_id: #{ENCRYPTED_VALUE_PATTERN}\n/
 
-    assert_match expected_pattern, Diffcrypt::Encryptor.new(TEST_KEY).encrypt_data(content).to_yaml
+    assert_match expected_pattern, Diffcrypt::Encryptor.new(TEST_KEY_128, cipher: 'aes-128-gcm').encrypt_data(content).to_yaml
   end
 
   # Verifies that a change to one key does not cause the encrypted values for other keys to be recomputed
@@ -73,7 +79,7 @@ class Diffcrypt::EncryptorTest < Minitest::Test
     updated_content = "---\nsecret_key_base_1: secret_key_base_test\naws:\n  secret_access_key: secret_access_key_2"
     expected_pattern = /---\nsecret_key_base_1: 88Ry6HESUoXBr6QUFXmni9zzfCIYt9qGNFvIWFcN--4xoecI5mqbNRBibI--62qPJbkzzh5h8lhFEFOSaQ==\naws:\n  secret_access_key: #{ENCRYPTED_VALUE_PATTERN}\n/
 
-    assert_match expected_pattern, Diffcrypt::Encryptor.new(TEST_KEY).encrypt_data(updated_content, original_encrypted_content).to_yaml
+    assert_match expected_pattern, Diffcrypt::Encryptor.new(TEST_KEY_128, cipher: 'aes-128-gcm').encrypt_data(updated_content, original_encrypted_content).to_yaml
   end
 
   def test_it_assumes_changed_when_no_original_value
@@ -81,6 +87,6 @@ class Diffcrypt::EncryptorTest < Minitest::Test
     updated_content = "---\nsecret_key_base_1: secret_key_base_test\naws:\n  access_key_id: new_value\n"
     expected_pattern = /---\nsecret_key_base_1: 88Ry6HESUoXBr6QUFXmni9zzfCIYt9qGNFvIWFcN--4xoecI5mqbNRBibI--62qPJbkzzh5h8lhFEFOSaQ==\naws:\n  access_key_id: #{ENCRYPTED_VALUE_PATTERN}\n/
 
-    assert_match expected_pattern, Diffcrypt::Encryptor.new(TEST_KEY).encrypt_data(updated_content, original_encrypted_content).to_yaml
+    assert_match expected_pattern, Diffcrypt::Encryptor.new(TEST_KEY_128, cipher: 'aes-128-gcm').encrypt_data(updated_content, original_encrypted_content).to_yaml
   end
 end

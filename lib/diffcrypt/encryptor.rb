@@ -12,7 +12,7 @@ require_relative './version'
 
 module Diffcrypt
   class Encryptor
-    DEFAULT_CIPHER = 'aes-128-gcm'
+    DEFAULT_CIPHER = 'aes-256-gcm'
 
     def self.generate_key(cipher = DEFAULT_CIPHER)
       SecureRandom.hex(ActiveSupport::MessageEncryptor.key_len(cipher))
