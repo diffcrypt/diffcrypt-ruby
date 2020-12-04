@@ -21,6 +21,7 @@ require 'diffcrypt'
 #
 # @example Generate an expected value for tests
 #   Diffcrypt::Encryptor.new('99e1f86b9e61f24c56ff4108dd415091').encrypt_string('some value here')
-TEST_KEY = ::File.read("#{__dir__}/fixtures/aes-128-gcm.key").strip
+TEST_KEY_128 = ::File.read("#{__dir__}/fixtures/aes-128-gcm.key").strip
+TEST_KEY_256 = ::File.read("#{__dir__}/fixtures/aes-256-gcm.key").strip
 
 require 'minitest/autorun'
