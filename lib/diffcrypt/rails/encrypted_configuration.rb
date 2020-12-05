@@ -88,17 +88,25 @@ module Diffcrypt
       end
       # rubocop:enable Metrics/AbcSize
 
+      # Standard rails credentials encrypt the entire file. We need to detect this to use the correct
+      # data interface
+      # @return [Boolean]
+      def rails_native_credentials?(contents)
+        contents.index('---').nil?
+      end
+
       # @param [String] contents The new content to be encrypted
       # @param [String] diff_against The original (encrypted) content to determine which keys have changed
       # @return [String] Encrypted content to commit
       def encrypt(contents, original_encrypted_contents = nil)
+        encryptor.set_instance_variable(:cipher, 'aes-128-gcm') if rails_native_credentials?(contents)
         encryptor.encrypt contents, original_encrypted_contents
       end
 
       # @param [String] contents
       # @return [String]
       def decrypt(contents)
-        if contents.index('---').nil?
+        if rails_native_credentials?(contents)
           active_support_encryptor.decrypt_and_verify contents
         else
           encryptor.decrypt contents
@@ -110,7 +118,7 @@ module Diffcrypt
       def active_support_encryptor
         @active_support_encryptor ||= ActiveSupport::MessageEncryptor.new(
           [key].pack('H*'),
-          cipher: @diffcrypt_file.cipher,
+          cipher: 'aes-128-gcm',
         )
       end
 
