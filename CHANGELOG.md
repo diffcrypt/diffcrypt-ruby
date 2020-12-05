@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
+## [Unreleased]
+
+### Changed
+
+- Default cipher is now `aes-265-gcm'
+
+
+
 ## [0.4.1] - 2020-10-06
 
 ### Fixed
