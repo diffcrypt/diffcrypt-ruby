@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Default cipher is now `aes-265-gcm'
+- Default cipher is now `aes-265-gcm`
 
 
 
