@@ -8,5 +8,7 @@ Rake::TestTask.new(:test) do |t|
   t.libs << 'lib'
   t.test_files = FileList['test/**/*_test.rb']
 end
-
 task default: :test
+
+path = File.expand_path(__dir__)
+Dir.glob("#{path}/tasks/**/*.rake").each { |f| require f }
