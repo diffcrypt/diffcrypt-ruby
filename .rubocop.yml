@@ -10,9 +10,11 @@ Style/Documentation:
 Metrics/MethodLength:
   Exclude:
     - test/**/*_test.rb
-TrailingCommaInArrayLiteral:
+Style/TrailingCommaInArrayLiteral:
   EnforcedStyleForMultiline: consistent_comma
 Style/TrailingCommaInArguments:
+  EnforcedStyleForMultiline: consistent_comma
+Style/TrailingCommaInHashLiteral:
   EnforcedStyleForMultiline: consistent_comma
 Style/AccessorGrouping:
   EnforcedStyle: separated

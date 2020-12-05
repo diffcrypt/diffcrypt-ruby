@@ -11,4 +11,4 @@ end
 task default: :test
 
 path = File.expand_path(__dir__)
-Dir.glob("#{path}/tasks/**/*.rake").each { |f| require f }
+Dir.glob("#{path}/tasks/**/*.rake").sort.each { |f| require f }
