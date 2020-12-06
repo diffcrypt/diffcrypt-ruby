@@ -14,13 +14,25 @@ module Diffcrypt
       to_yaml['cipher']
     end
 
+    # Determines the cipher to use for encryption/decryption
     def cipher
+      return 'aes-128-gcm' if format == 'activesupport'
+
       to_yaml['cipher'] || Encryptor::DEFAULT_CIPHER
     end
 
     # @return [Boolean]
     def exists?
       ::File.exist?(@path)
+    end
+
+    # Determines the format to be used for encryption
+    # @return [String] diffcrypt|activesupport
+    def format
+      return 'diffcrypt' if read == ''
+      return 'diffcrypt' if read.index('---')&.zero?
+
+      'activesupport'
     end
 
     # @return [String] Raw contents of the file

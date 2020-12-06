@@ -99,7 +99,6 @@ module Diffcrypt
       # @param [String] diff_against The original (encrypted) content to determine which keys have changed
       # @return [String] Encrypted content to commit
       def encrypt(contents, original_encrypted_contents = nil)
-        encryptor.set_instance_variable(:cipher, 'aes-128-gcm') if rails_native_credentials?(contents)
         encryptor.encrypt contents, original_encrypted_contents
       end
 
