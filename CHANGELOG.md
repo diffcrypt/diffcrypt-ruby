@@ -9,15 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.5.0] - 2020-12-06
 
-### Added
+### Added
 
 - `Diffcrypt::Rails::ApplicationHelper` to simplify integration
+- `rake diffcrypt:init` command to help setup credentials
 
 ### Changed
 
 - Default cipher is now `aes-265-gcm`
 - YAML keys are now sorted
 - Improved support for rails native `aes-128-gcm` cipher
+- Improved test coverage for differing ciphers
 
 
 
