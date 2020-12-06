@@ -86,7 +86,7 @@ module Diffcrypt
                       key_changed ? encrypt_string(value) : original_encrypted_value
                     end
       end
-      data
+      data.sort.to_h
     end
     # rubocop:enable Metrics/PerceivedComplexity, Metrics/MethodLength, Metrics/CyclomaticComplexity
 

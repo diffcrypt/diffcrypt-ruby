@@ -67,7 +67,7 @@ class Diffcrypt::EncryptorTest < Minitest::Test
       aws:
         access_key_id: AKIAXXX
     CONTENT
-    expected_pattern = /---\nsecret_key_base: #{ENCRYPTED_VALUE_PATTERN}\naws:\n  access_key_id: #{ENCRYPTED_VALUE_PATTERN}\n/
+    expected_pattern = /---\naws:\n  access_key_id: #{ENCRYPTED_VALUE_PATTERN}\nsecret_key_base: #{ENCRYPTED_VALUE_PATTERN}\n/
 
     assert_match expected_pattern, Diffcrypt::Encryptor.new(TEST_KEY_128, cipher: 'aes-128-gcm').encrypt_data(content).to_yaml
   end
@@ -77,7 +77,7 @@ class Diffcrypt::EncryptorTest < Minitest::Test
   def test_it_only_updates_changed_values
     original_encrypted_content = "---\ndata:\n  secret_key_base_1: 88Ry6HESUoXBr6QUFXmni9zzfCIYt9qGNFvIWFcN--4xoecI5mqbNRBibI--62qPJbkzzh5h8lhFEFOSaQ==\naws:\n    secret_access_key: 88Ry6HESUoXBr6QUFXmni9zzfCIYt9qGNFvIWFcN--4xoecI5mqbNRBibI--62qPJbkzzh5h8lhFEFOSaQ==\n"
     updated_content = "---\nsecret_key_base_1: secret_key_base_test\naws:\n  secret_access_key: secret_access_key_2"
-    expected_pattern = /---\nsecret_key_base_1: 88Ry6HESUoXBr6QUFXmni9zzfCIYt9qGNFvIWFcN--4xoecI5mqbNRBibI--62qPJbkzzh5h8lhFEFOSaQ==\naws:\n  secret_access_key: #{ENCRYPTED_VALUE_PATTERN}\n/
+    expected_pattern = /---\naws:\n  secret_access_key: #{ENCRYPTED_VALUE_PATTERN}\nsecret_key_base_1: 88Ry6HESUoXBr6QUFXmni9zzfCIYt9qGNFvIWFcN--4xoecI5mqbNRBibI--62qPJbkzzh5h8lhFEFOSaQ==\n/
 
     assert_match expected_pattern, Diffcrypt::Encryptor.new(TEST_KEY_128, cipher: 'aes-128-gcm').encrypt_data(updated_content, original_encrypted_content).to_yaml
   end
@@ -85,7 +85,7 @@ class Diffcrypt::EncryptorTest < Minitest::Test
   def test_it_assumes_changed_when_no_original_value
     original_encrypted_content = "---\ndata:\n  secret_key_base_1: 88Ry6HESUoXBr6QUFXmni9zzfCIYt9qGNFvIWFcN--4xoecI5mqbNRBibI--62qPJbkzzh5h8lhFEFOSaQ==\n"
     updated_content = "---\nsecret_key_base_1: secret_key_base_test\naws:\n  access_key_id: new_value\n"
-    expected_pattern = /---\nsecret_key_base_1: 88Ry6HESUoXBr6QUFXmni9zzfCIYt9qGNFvIWFcN--4xoecI5mqbNRBibI--62qPJbkzzh5h8lhFEFOSaQ==\naws:\n  access_key_id: #{ENCRYPTED_VALUE_PATTERN}\n/
+    expected_pattern = /---\naws:\n  access_key_id: #{ENCRYPTED_VALUE_PATTERN}\nsecret_key_base_1: 88Ry6HESUoXBr6QUFXmni9zzfCIYt9qGNFvIWFcN--4xoecI5mqbNRBibI--62qPJbkzzh5h8lhFEFOSaQ==\n/
 
     assert_match expected_pattern, Diffcrypt::Encryptor.new(TEST_KEY_128, cipher: 'aes-128-gcm').encrypt_data(updated_content, original_encrypted_content).to_yaml
   end
