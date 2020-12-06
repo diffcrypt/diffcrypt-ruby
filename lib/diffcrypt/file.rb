@@ -14,7 +14,10 @@ module Diffcrypt
       to_yaml['cipher']
     end
 
+    # Determines the cipher to use for encryption/decryption
     def cipher
+      return 'aes-128-gcm' if format == 'activesupport'
+
       to_yaml['cipher'] || Encryptor::DEFAULT_CIPHER
     end
 
@@ -23,11 +26,33 @@ module Diffcrypt
       ::File.exist?(@path)
     end
 
-    # @return [String] Raw contents of the file
-    def read
-      @read ||= ::File.read(@path)
+    # Determines the format to be used for encryption
+    # @return [String] diffcrypt|activesupport
+    def format
+      return 'diffcrypt' if read == ''
+      return 'diffcrypt' if read.index('---')&.zero?
+
+      'activesupport'
     end
 
+    # @return [String] Raw contents of the file
+    def read
+      return '' unless ::File.exist?(@path)
+
+      @read ||= ::File.read(@path)
+      @read
+    end
+
+    # Save the encrypted contents back to disk
+    # @return [Boolean] True is file save was successful
+    def write(key, data, cipher: nil)
+      cipher ||= self.cipher
+      yaml = ::YAML.dump(data)
+      contents = Encryptor.new(key, cipher: cipher).encrypt(yaml)
+      ::File.write(@path, contents)
+    end
+
+    # TODO: This seems useless, figure out what's up
     def encrypt(key, cipher: DEFAULT_CIPHER)
       return read if encrypted?
 
@@ -42,7 +67,7 @@ module Diffcrypt
     end
 
     def to_yaml
-      @to_yaml ||= YAML.safe_load(read)
+      @to_yaml ||= YAML.safe_load(read) || {}
     end
   end
 end

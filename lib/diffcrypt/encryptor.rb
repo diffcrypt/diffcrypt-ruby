@@ -47,11 +47,11 @@ module Diffcrypt
     # @param [String] contents The raw YAML string to be encrypted
     # @param [String, nil] original_encrypted_contents The original (encrypted) content to determine which keys have changed
     # @return [String]
-    def encrypt(contents, original_encrypted_contents = nil)
+    def encrypt(contents, original_encrypted_contents = nil, cipher: nil)
       data = encrypt_data contents, original_encrypted_contents
       YAML.dump(
         'client' => "diffcrypt-#{Diffcrypt::VERSION}",
-        'cipher' => @cipher,
+        'cipher' => cipher || @cipher,
         'data' => data,
       )
     end

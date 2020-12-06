@@ -2,6 +2,7 @@
 
 require 'diffcrypt/encryptor'
 require 'diffcrypt/version'
+require 'diffcrypt/railtie' if defined?(Rails)
 
 module Diffcrypt
   class Error < StandardError; end

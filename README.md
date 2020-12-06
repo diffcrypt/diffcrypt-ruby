@@ -66,17 +66,10 @@ Currently there is not native support for rails, but ActiveSupport can be monkey
 the built in encrypter. All existing `rails credentials:edit` also work with this method.
 
 ```ruby
-require 'diffcrypt/rails/encrypted_configuration'
+# config/application.rb
 module Rails
   class Application
-    def encrypted(path, key_path: 'config/aes-128-gcm.key', env_key: 'RAILS_MASTER_KEY')
-      Diffcrypt::Rails::EncryptedConfiguration.new(
-        config_path: Rails.root.join(path),
-        key_path: Rails.root.join(key_path),
-        env_key: env_key,
-        raise_if_missing_key: config.require_master_key,
-      )
-    end
+    include Diffcrypt::Rails::ApplicationHelper
   end
 end
 ```
