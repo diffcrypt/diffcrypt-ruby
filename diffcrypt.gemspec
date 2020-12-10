@@ -29,6 +29,6 @@ Gem::Specification.new do |spec|
   spec.executables = %w[diffcrypt]
   spec.require_paths = ['lib']
 
-  spec.add_runtime_dependency 'activesupport', '~> 6.0.0'
+  spec.add_runtime_dependency 'activesupport', '>= 6.0', '< 6.2'
   spec.add_runtime_dependency 'thor', '>= 0.20', '< 2'
 end
