@@ -1,7 +1,7 @@
 # Diffcrypt
 
 [![Gem Version](https://badge.fury.io/rb/diffcrypt.svg)](https://rubygems.org/gems/diffcrypt)
-[![CircleCI](https://circleci.com/gh/marcqualie/diffcrypt.svg?style=svg)](https://circleci.com/gh/marcqualie/diffcrypt)
+[![CircleCI](https://circleci.com/gh/diffcrypt/diffcrypt-ruby.svg?style=svg)](https://circleci.com/gh/diffcrypt/diffcrypt-ruby)
 
 
 Diffable encrypted files that you can safely commit into your repo.
@@ -97,7 +97,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/marcqualie/diffcrypt.
+Bug reports and pull requests are welcome on GitHub at https://github.com/diffcrypt/diffcrypt-ruby.
 
 
 
