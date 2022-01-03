@@ -29,10 +29,12 @@ TMP_RAILS_ROOT = File.join(__dir__, '../tmp/test')
 def run_command(*command)
   stdout, stderr, status = Open3.capture3(*command)
   if status.success? == false
-    puts "  > #{command.join(' ')}"
-    puts stdout.split("\n").map { |line| "    #{line}" }.join("\n")
-    puts stderr.split("\n").map { |line| "    #{line}" }.join("\n")
-    raise "Command failed: #{command.join(' ')}"
+    errors = [
+      "  Command Failed: #{command.join(' ')}",
+      stdout.split("\n").map { |line| "    #{line}" }.join("\n"),
+      stderr.split("\n").map { |line| "    #{line}" }.join("\n"),
+    ]
+    raise errors.join("\n")
   end
 
   [stdout, stderr, status]
