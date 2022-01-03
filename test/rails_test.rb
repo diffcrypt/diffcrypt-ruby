@@ -13,8 +13,9 @@ RAILS_VERSIONS = %w[
 
 # Helper to ensure we raise if command is not successful
 def run_command(*command)
-  # puts "> #{command.join(' ')}"
+  puts "  > #{command.join(' ')}" if ENV['DEBUG']
   stdout, stderr, status = Open3.capture3(*command)
+  puts stdout.split("\n").map { |line| "    #{line}" }.join("\n") if ENV['DEBUG']
   raise stderr unless status.success?
 
   [stdout, stderr, status]

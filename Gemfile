@@ -6,6 +6,7 @@ source 'https://rubygems.org'
 gemspec
 
 gem 'minitest', '~> 5.0'
+gem 'minitest-reporters', '~> 1.4.3'
 gem 'rake', '~> 13.0'
 gem 'rubocop', '~> 1.17.0'
 gem 'simplecov', '~> 0.21.2', require: false # CodeClimate not compatible with 0.18+ yet - https://github.com/codeclimate/test-reporter/issues/413
