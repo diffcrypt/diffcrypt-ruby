@@ -4,6 +4,8 @@ require 'fileutils'
 require 'pathname'
 require 'tmpdir'
 
+require 'active_support/isolated_execution_state' # Required for rails 7
+
 require 'active_support/ordered_options'
 require 'active_support/core_ext/hash'
 require 'active_support/core_ext/module/delegation'
