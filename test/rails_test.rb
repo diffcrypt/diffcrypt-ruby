@@ -5,56 +5,37 @@ require 'bundler'
 
 require 'open3'
 
+RAILS_VERSIONS = %w[
+  6.0.4.4
+  6.1.4.4
+  7.0.0
+]
+
+# Helper to ensure we raise if command is not successful
+def run_command(*command)
+  # puts "> #{command.join(' ')}"
+  stdout, stderr, status = Open3.capture3(*command)
+  raise stderr unless status.zero?
+
+  [stdout, stderr, status]
+end
+
 class RailsTest < Minitest::Test
-  def test_it_initialises_with_rails_6_0
-    tmp_root = File.join(__dir__, '../tmp/test')
-    FileUtils.remove_dir(tmp_root)
-    FileUtils.mkdir_p(tmp_root) unless Dir.exist?(tmp_root)
-    Bundler.with_original_env do
-      Dir.chdir(tmp_root) do
-        `gem install rails --version 6.0.4.4`
-        `rails _6.0.4.4_ new --api --skip-git --skip-keeps --skip-active-storage --skip-action-cable --skip-javascript --skip-system-test --skip-test rails_6_0`
-        Dir.chdir('rails_6_0') do
-          File.write('Gemfile', "gem 'diffcrypt', path: '../../..'", mode: 'a')
-          stdout, _stderr, status = Open3.capture3('bundle', 'exec', 'rails', 'r', 'puts Rails.version')
-          assert_equal '6.0.4.4', stdout.strip
-          assert_equal 0, status
-        end
-      end
-    end
-  end
-
-  def test_it_initialises_with_rails_6_1
-    tmp_root = File.join(__dir__, '../tmp/test')
-    FileUtils.remove_dir(tmp_root)
-    FileUtils.mkdir_p(tmp_root) unless Dir.exist?(tmp_root)
-    Bundler.with_original_env do
-      Dir.chdir(tmp_root) do
-        `gem install rails --version 6.1.4.4`
-        `rails _6.1.4.4_ new --api --skip-git --skip-keeps --skip-active-storage --skip-action-cable --skip-javascript --skip-system-test --skip-test rails_6_1`
-        Dir.chdir('rails_6_1') do
-          File.write('Gemfile', "gem 'diffcrypt', path: '../../..'", mode: 'a')
-          stdout, _stderr, status = Open3.capture3('bundle', 'exec', 'rails', 'r', 'puts Rails.version')
-          assert_equal '6.1.4.4', stdout.strip
-          assert_equal 0, status
-        end
-      end
-    end
-  end
-
-  def test_it_initialises_with_rails_7_0
-    tmp_root = File.join(__dir__, '../tmp/test')
-    FileUtils.remove_dir(tmp_root)
-    FileUtils.mkdir_p(tmp_root) unless Dir.exist?(tmp_root)
-    Bundler.with_original_env do
-      Dir.chdir(tmp_root) do
-        `gem install rails --version 7.0.0`
-        `rails _7.0.0_ new --api --skip-git --skip-keeps --skip-active-storage --skip-action-cable --skip-javascript --skip-system-test --skip-test rails_7_0`
-        Dir.chdir('rails_7_0') do
-          File.write('Gemfile', "gem 'diffcrypt', path: '../../..'", mode: 'a')
-          stdout, _stderr, status = Open3.capture3('bundle', 'exec', 'rails', 'r', 'puts Rails.version')
-          assert_equal '7.0.0', stdout.strip
-          assert_equal 0, status
+  RAILS_VERSIONS.each do |rails_version|
+    define_method "test_that_rails_#{rails_version.gsub('.', '_')}_works" do
+      tmp_root = File.join(__dir__, '../tmp/test')
+      FileUtils.mkdir_p(tmp_root) unless Dir.exist?(tmp_root)
+      Bundler.with_original_env do
+        Dir.chdir(tmp_root) do
+          tmp_version_root = "rails_#{rails_version.gsub('.', '_')}"
+          FileUtils.remove_dir(tmp_version_root) if Dir.exist?(tmp_version_root)
+          run_command('gem', 'install', 'rails', '--version', rails_version)
+          run_command('rails', "_#{rails_version}_", 'new', '--api', '--skip-git', '--skip-keeps', '--skip-bundle', '--skip-active-storage', '--skip-action-cable', '--skip-javascript', '--skip-system-test', '--skip-test', tmp_version_root)
+          Dir.chdir(tmp_version_root) do
+            File.write('Gemfile', "gem 'diffcrypt', path: '../../..'", mode: 'a')
+            stdout, _stderr, status = run_command('bundle', 'exec', 'rails', 'r', 'puts Rails.version')
+            assert_equal rails_version, stdout.strip
+          end
         end
       end
     end
