@@ -11,27 +11,47 @@ RAILS_VERSIONS = %w[
   7.0.0
 ].freeze
 
+RAILS_FLAGS = %w[
+  --api
+  --skip-action-cable
+  --skip-active-storage
+  --skip-bundle
+  --skip-git
+  --skip-javascript
+  --skip-keeps
+  --skip-system-test
+  --skip-test
+].freeze
+
+TMP_RAILS_ROOT = File.join(__dir__, '../tmp/test')
+
 # Helper to ensure we raise if command is not successful
 def run_command(*command)
-  puts "  > #{command.join(' ')}" if ENV['DEBUG']
   stdout, stderr, status = Open3.capture3(*command)
-  puts stdout.split("\n").map { |line| "    #{line}" }.join("\n") if ENV['DEBUG']
-  raise stderr unless status.success?
+  if status.success? == false
+    puts "  > #{command.join(' ')}"
+    puts stdout.split("\n").map { |line| "    #{line}" }.join("\n")
+    puts stderr.split("\n").map { |line| "    #{line}" }.join("\n")
+    raise "Command failed: #{command.join(' ')}"
+  end
 
   [stdout, stderr, status]
 end
 
 class RailsTest < Minitest::Test
+  def setup
+    FileUtils.remove_dir(TMP_RAILS_ROOT) if Dir.exist?(TMP_RAILS_ROOT)
+    FileUtils.mkdir_p(TMP_RAILS_ROOT)
+  end
+
   RAILS_VERSIONS.each do |rails_version|
     define_method "test_that_rails_#{rails_version.gsub('.', '_')}_works" do
-      tmp_root = File.join(__dir__, '../tmp/test')
-      FileUtils.mkdir_p(tmp_root) unless Dir.exist?(tmp_root)
       Bundler.with_original_env do
-        Dir.chdir(tmp_root) do
+        Dir.chdir(TMP_RAILS_ROOT) do
           tmp_version_root = "rails_#{rails_version.gsub('.', '_')}"
           FileUtils.remove_dir(tmp_version_root) if Dir.exist?(tmp_version_root)
           run_command('gem', 'install', 'rails', '--version', rails_version)
-          run_command('rails', "_#{rails_version}_", 'new', '--api', '--skip-git', '--skip-keeps', '--skip-bundle', '--skip-active-storage', '--skip-action-cable', '--skip-javascript', '--skip-system-test', '--skip-test', tmp_version_root)
+          run_command('rails', "_#{rails_version}_", 'new', *RAILS_FLAGS, tmp_version_root)
           Dir.chdir(tmp_version_root) do
             File.write('Gemfile', "gem 'diffcrypt', path: '../../..'", mode: 'a')
             run_command('bundle', 'install')
