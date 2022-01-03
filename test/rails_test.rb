@@ -9,13 +9,13 @@ RAILS_VERSIONS = %w[
   6.0.4.4
   6.1.4.4
   7.0.0
-]
+].freeze
 
 # Helper to ensure we raise if command is not successful
 def run_command(*command)
   # puts "> #{command.join(' ')}"
   stdout, stderr, status = Open3.capture3(*command)
-  raise stderr unless status.zero?
+  raise stderr unless status.success?
 
   [stdout, stderr, status]
 end
@@ -33,7 +33,7 @@ class RailsTest < Minitest::Test
           run_command('rails', "_#{rails_version}_", 'new', '--api', '--skip-git', '--skip-keeps', '--skip-bundle', '--skip-active-storage', '--skip-action-cable', '--skip-javascript', '--skip-system-test', '--skip-test', tmp_version_root)
           Dir.chdir(tmp_version_root) do
             File.write('Gemfile', "gem 'diffcrypt', path: '../../..'", mode: 'a')
-            stdout, _stderr, status = run_command('bundle', 'exec', 'rails', 'r', 'puts Rails.version')
+            stdout, _stderr, _status = run_command('bundle', 'exec', 'rails', 'r', 'puts Rails.version')
             assert_equal rails_version, stdout.strip
           end
         end
