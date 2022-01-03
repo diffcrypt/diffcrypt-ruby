@@ -47,7 +47,7 @@ class RailsTest < Minitest::Test
 
   RAILS_VERSIONS.each do |rails_version|
     define_method "test_that_rails_#{rails_version.gsub('.', '_')}_works" do
-      Bundler.with_original_env do
+      Bundler.with_unbundled_env do
         Dir.chdir(TMP_RAILS_ROOT) do
           tmp_version_root = "rails_#{rails_version.gsub('.', '_')}"
           FileUtils.remove_dir(tmp_version_root) if Dir.exist?(tmp_version_root)
