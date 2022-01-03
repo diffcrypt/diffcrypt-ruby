@@ -42,8 +42,7 @@ end
 
 class RailsTest < Minitest::Test
   def setup
-    FileUtils.remove_dir(TMP_RAILS_ROOT) if Dir.exist?(TMP_RAILS_ROOT)
-    FileUtils.mkdir_p(TMP_RAILS_ROOT)
+    FileUtils.mkdir_p(TMP_RAILS_ROOT) unless Dir.exist?(TMP_RAILS_ROOT)
   end
 
   RAILS_VERSIONS.each do |rails_version|
