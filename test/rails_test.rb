@@ -56,7 +56,7 @@ class RailsTest < Minitest::Test
           Dir.chdir(tmp_version_root) do
             File.write('Gemfile', "gem 'diffcrypt', path: '../../..'", mode: 'a')
             run_command('bundle', 'install')
-            stdout, _stderr, _status = run_command('bin/rails', 'r', 'puts Rails.version')
+            stdout, _stderr, _status = run_command('bundle', 'exec', 'rails', 'r', 'puts Rails.version')
             assert_equal rails_version, stdout.strip
           end
         end
