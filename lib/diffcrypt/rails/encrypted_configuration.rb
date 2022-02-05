@@ -4,6 +4,8 @@ require 'fileutils'
 require 'pathname'
 require 'tmpdir'
 
+require 'active_support/isolated_execution_state' if Gem.loaded_specs['activesupport'].version.to_s.index('7.')&.zero?
+
 require 'active_support/ordered_options'
 require 'active_support/core_ext/hash'
 require 'active_support/core_ext/module/delegation'

@@ -9,6 +9,11 @@ Style/Documentation:
   Enabled: false
 Metrics/MethodLength:
   Exclude:
+    - test/*_test.rb
+    - test/**/*_test.rb
+Naming/VariableNumber:
+  Exclude:
+    - test/*_test.rb
     - test/**/*_test.rb
 Style/TrailingCommaInArrayLiteral:
   EnforcedStyleForMultiline: consistent_comma
@@ -21,4 +26,5 @@ Style/AccessorGrouping:
 
 Layout/LineLength:
   Exclude:
+    - test/*_test.rb
     - test/**/*_test.rb
