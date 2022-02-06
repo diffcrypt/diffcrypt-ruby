@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
+## [0.6.0] - 2022-02-06
+
+### Added
+
+- Rails 7 support
+- Ruby 3.0 support
+
+### Changed
+
+- Updated all dependencies
+- Migrated from CircleCI to GitHub Actions
+- Moved repo to own organisation
+
+### Fixed
+
+- Only add `.gitignore` entry once #52
+
+
+
 ## [0.5.1] - 2021-03-29
 
 ### Added
