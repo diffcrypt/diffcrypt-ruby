@@ -13,6 +13,7 @@ jobs:
       matrix:
         ruby:
           - "2.7.5"
+          - "3.0.3"
     steps:
     - uses: actions/checkout@v2
     - name: Set up Ruby
