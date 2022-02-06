@@ -8,7 +8,7 @@ require 'open3'
 RAILS_VERSIONS = %w[
   6.0.4.4
   6.1.4.4
-  7.0.0
+  7.0.1
 ].freeze
 
 RAILS_FLAGS = %w[
