@@ -54,7 +54,7 @@ module Diffcrypt
       def write(contents, original_encrypted_contents = nil)
         deserialize(contents)
 
-        File.binwrite "#{content_path}.tmp", encrypt(contents, original_encrypted_contents)
+        ::File.binwrite "#{content_path}.tmp", encrypt(contents, original_encrypted_contents)
         ::FileUtils.mv "#{content_path}.tmp", content_path
       end
 
