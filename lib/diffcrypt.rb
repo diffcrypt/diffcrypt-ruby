@@ -17,7 +17,7 @@ module Diffcrypt
     def initialize(key_path:, env_key:)
       super \
         'Missing encryption key to decrypt file with. ' \
-          "Ask your team for your master key and write it to #{key_path} or put it in the ENV['#{env_key}']."
+        "Ask your team for your master key and write it to #{key_path} or put it in the ENV['#{env_key}']."
     end
   end
 end

@@ -31,4 +31,5 @@ Gem::Specification.new do |spec|
 
   spec.add_runtime_dependency 'activesupport', '>= 6.0', '< 7.1'
   spec.add_runtime_dependency 'thor', '>= 0.20', '< 2'
+  spec.metadata['rubygems_mfa_required'] = 'true'
 end
