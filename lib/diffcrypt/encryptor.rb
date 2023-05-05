@@ -77,18 +77,18 @@ module Diffcrypt
     end
 
     # TODO: Fix the complexity of this method
-    # rubocop:disable Metrics/MethodLength, Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/AbcSize
     # @param [Hash] keys
     # @return [Hash]
     def encrypt_values(data, original_data = nil)
       data.each do |key, value|
-        original_encrypted_value = original_data ? original_data[key] : nil
+        original_encrypted_value = original_data&.dig(key)
 
         data[key] = case value
                     when Hash
                       encrypt_values(value, original_encrypted_value)
                     when Array
-                      value.map { |v| encrypt_values(v, original_encrypted_value) }
+                      value.map.with_index { |v, i| encrypt_values(v, original_encrypted_value&.dig(i)) }
                     else
                       original_decrypted_value = original_encrypted_value ? decrypt_string(original_encrypted_value) : nil
                       key_changed = original_decrypted_value.nil? || original_decrypted_value != value
@@ -97,7 +97,7 @@ module Diffcrypt
       end
       data.sort.to_h
     end
-    # rubocop:enable Metrics/MethodLength, Metrics/CyclomaticComplexity
+    # rubocop:enable Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/AbcSize
 
     # @param [String] value The encrypted value that needs decrypting
     # @return [String]

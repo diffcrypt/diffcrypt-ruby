@@ -95,6 +95,14 @@ class Diffcrypt::EncryptorTest < Minitest::Test
     assert_match expected_pattern, Diffcrypt::Encryptor.new(TEST_KEY_128, cipher: 'aes-128-gcm').encrypt_data(updated_content, original_encrypted_content).to_yaml
   end
 
+  def test_it_only_updates_changed_values_for_arrays
+    original_encrypted_content = "---\ndata:\n  array:\n  - item1: 7HJjrwQ6KqH+jvu1pOZGqQ==--E2ipnCNCszD6oixM--QZapG/8wrPtwbUVDe9evsw==\n  - item2: IvwdxcAV+38MvNsKYdNCEg==--6y7Aj4nmFLOTGrx3--rRH8ni3yks2eid91jde2hg==\n"
+    updated_content = "---\narray:\n  - item1: value1\n  - item2: value2"
+    expected_pattern = %r{---\narray:\n- item1: 7HJjrwQ6KqH\+jvu1pOZGqQ==--E2ipnCNCszD6oixM--QZapG/8wrPtwbUVDe9evsw==\n- item2: IvwdxcAV\+38MvNsKYdNCEg==--6y7Aj4nmFLOTGrx3--rRH8ni3yks2eid91jde2hg==\n}
+
+    assert_match expected_pattern, Diffcrypt::Encryptor.new(TEST_KEY_128, cipher: 'aes-128-gcm').encrypt_data(updated_content, original_encrypted_content).to_yaml
+  end
+
   def test_it_assumes_changed_when_no_original_value
     original_encrypted_content = "---\ndata:\n  secret_key_base_1: 88Ry6HESUoXBr6QUFXmni9zzfCIYt9qGNFvIWFcN--4xoecI5mqbNRBibI--62qPJbkzzh5h8lhFEFOSaQ==\n"
     updated_content = "---\nsecret_key_base_1: secret_key_base_test\naws:\n  access_key_id: new_value\n"
