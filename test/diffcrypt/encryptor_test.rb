@@ -46,12 +46,19 @@ class Diffcrypt::EncryptorTest < Minitest::Test
   def test_it_decrypts_nested_structures
     encrypted_content = <<~CONTENT
       data:
+        array:
+          - item1: 7HJjrwQ6KqH+jvu1pOZGqQ==--E2ipnCNCszD6oixM--QZapG/8wrPtwbUVDe9evsw==
+          - item2: IvwdxcAV+38MvNsKYdNCEg==--6y7Aj4nmFLOTGrx3--rRH8ni3yks2eid91jde2hg==
         secret_key_base: 88Ry6HESUoXBr6QUFXmni9zzfCIYt9qGNFvIWFcN--4xoecI5mqbNRBibI--62qPJbkzzh5h8lhFEFOSaQ==
         aws:
           access_key_id: Ot/uCTEL+8kp61EPctnxNlg=--Be6sg7OdvjZlfxgR--7qRbbf0lA4VgjnUGUrrFwg==
+
     CONTENT
     expected = <<~CONTENT
       ---
+      array:
+      - item1: value1
+      - item2: value2
       secret_key_base: secret_key_base_test
       aws:
         access_key_id: AKIAXXX
@@ -66,8 +73,11 @@ class Diffcrypt::EncryptorTest < Minitest::Test
       secret_key_base: secret_key_base_test
       aws:
         access_key_id: AKIAXXX
+      array:
+        - item1: value1
+        - item2: value2
     CONTENT
-    expected_pattern = /---\naws:\n  access_key_id: #{ENCRYPTED_VALUE_PATTERN}\nsecret_key_base: #{ENCRYPTED_VALUE_PATTERN}\n/
+    expected_pattern = /---\narray:\n- item1: #{ENCRYPTED_VALUE_PATTERN}\n- item2: #{ENCRYPTED_VALUE_PATTERN}\naws:\n  access_key_id: #{ENCRYPTED_VALUE_PATTERN}\nsecret_key_base: #{ENCRYPTED_VALUE_PATTERN}/
 
     assert_match expected_pattern, Diffcrypt::Encryptor.new(TEST_KEY_128, cipher: 'aes-128-gcm').encrypt_data(content).to_yaml
   end
