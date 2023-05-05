@@ -82,8 +82,6 @@ class Diffcrypt::EncryptorTest < Minitest::Test
     CONTENT
     expected_pattern = /---\narray:\n- item1: #{ENCRYPTED_VALUE_PATTERN}\n  subitem: #{ENCRYPTED_VALUE_PATTERN}\n- item2: #{ENCRYPTED_VALUE_PATTERN}\naws:\n  access_key_id: #{ENCRYPTED_VALUE_PATTERN}\nsecret_key_base: #{ENCRYPTED_VALUE_PATTERN}/
 
-    pp Diffcrypt::Encryptor.new(TEST_KEY_128, cipher: 'aes-128-gcm').encrypt_data(content).to_yaml
-
     assert_match expected_pattern, Diffcrypt::Encryptor.new(TEST_KEY_128, cipher: 'aes-128-gcm').encrypt_data(content).to_yaml
   end
 
