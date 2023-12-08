@@ -68,6 +68,14 @@ module Diffcrypt
         read_env_key || read_key_file || handle_missing_key
       end
 
+      # It's required since the commit https://github.com/rails/rails/commit/1740b1f2cb8104435b6041ec6bfaabe58a6d74e6
+      # Returns truthy if #key is truthy. Returns falsy otherwise. Unlike #key,
+      # does not raise MissingKeyError when +raise_if_missing_key+ is true.
+      # @return [Boolean]
+      def key?
+        !!(read_env_key || read_key_file)
+      end
+
       def change(&block)
         writing read, &block
       end
