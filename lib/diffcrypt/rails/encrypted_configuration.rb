@@ -73,7 +73,7 @@ module Diffcrypt
       # does not raise MissingKeyError when +raise_if_missing_key+ is true.
       # @return [Boolean]
       def key?
-        read_env_key || read_key_file
+        !!(read_env_key || read_key_file)
       end
 
       def change(&block)
