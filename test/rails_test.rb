@@ -9,7 +9,6 @@ RAILS_VERSIONS = %w[
   6.0.6.1
   6.1.7.6
   7.0.8
-  7.1.3
 ].freeze
 
 RAILS_FLAGS = %w[
