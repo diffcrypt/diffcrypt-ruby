@@ -6,9 +6,9 @@ require 'bundler'
 require 'open3'
 
 RAILS_VERSIONS = %w[
-  6.0.4.4
-  6.1.4.4
-  7.0.1
+  6.0.6.1
+  6.1.7.6
+  7.0.8
 ].freeze
 
 RAILS_FLAGS = %w[
