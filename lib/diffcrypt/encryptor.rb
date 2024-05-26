@@ -6,6 +6,7 @@ require 'tmpdir'
 require 'securerandom'
 require 'yaml'
 
+require 'active_support' # NOTE: This is required because of a bug in 7.1 which needs deprecation libs
 require 'active_support/message_encryptor'
 
 require_relative './version'
