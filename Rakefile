@@ -11,4 +11,4 @@ end
 task default: :test
 
 path = File.expand_path(__dir__)
-Dir.glob("#{path}/lib/diffcrypt/tasks/**/*.rake").each { |f| load f }
+Dir.glob("#{path}/lib/diffcrypt/tasks/**/*.rake").each { load(_1) }
