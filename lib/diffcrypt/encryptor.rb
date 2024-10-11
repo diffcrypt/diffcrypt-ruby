@@ -34,16 +34,21 @@ module Diffcrypt
 
     # @param [Hash] data
     # @return [Hash]
+    # rubocop:disable Metrics/MethodLength
     def decrypt_hash(data)
       data.each do |key, value|
-        data[key] = if value.is_a?(Hash) || value.is_a?(Array)
+        data[key] = case value
+                    when Hash
                       decrypt_hash(value)
+                    when Array
+                      value.map { |v| decrypt_hash(v) }
                     else
                       decrypt_string value
                     end
       end
       data
     end
+    # rubocop:enable Metrics/MethodLength
 
     # @param [String] contents The raw YAML string to be encrypted
     # @param [String, nil] original_encrypted_contents The original (encrypted) content to determine which keys have changed
@@ -73,14 +78,18 @@ module Diffcrypt
     end
 
     # TODO: Fix the complexity of this method
-    # rubocop:disable Metrics/PerceivedComplexity, Metrics/MethodLength, Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/AbcSize
     # @param [Hash] keys
     # @return [Hash]
     def encrypt_values(data, original_data = nil)
       data.each do |key, value|
-        original_encrypted_value = original_data ? original_data[key] : nil
-        data[key] = if value.is_a?(Hash) || value.is_a?(Array)
+        original_encrypted_value = original_data&.dig(key)
+
+        data[key] = case value
+                    when Hash
                       encrypt_values(value, original_encrypted_value)
+                    when Array
+                      value.map.with_index { |v, i| encrypt_values(v, original_encrypted_value&.dig(i)) }
                     else
                       original_decrypted_value = original_encrypted_value ? decrypt_string(original_encrypted_value) : nil
                       key_changed = original_decrypted_value.nil? || original_decrypted_value != value
@@ -89,7 +98,7 @@ module Diffcrypt
       end
       data.sort.to_h
     end
-    # rubocop:enable Metrics/PerceivedComplexity, Metrics/MethodLength, Metrics/CyclomaticComplexity
+    # rubocop:enable Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/AbcSize
 
     # @param [String] value The encrypted value that needs decrypting
     # @return [String]
