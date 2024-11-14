@@ -6,9 +6,9 @@ require 'bundler'
 require 'open3'
 
 RAILS_VERSIONS = %w[
-  6.0.4.4
-  6.1.4.4
-  7.0.1
+  6.1.7.7
+  7.0.8.3
+  7.1.3.3
 ].freeze
 
 RAILS_FLAGS = %w[
@@ -51,8 +51,10 @@ class RailsTest < Minitest::Test
         Dir.chdir(TMP_RAILS_ROOT) do
           tmp_version_root = "rails_#{rails_version.gsub('.', '_')}"
           FileUtils.remove_dir(tmp_version_root) if Dir.exist?(tmp_version_root)
-          run_command('gem', 'install', 'rails', '--version', rails_version)
+          run_command('gem', 'install', 'rails', '--version', rails_version, '--force')
           run_command('rails', "_#{rails_version}_", 'new', *RAILS_FLAGS, tmp_version_root)
+          raise "Rails #{rails_version} app creation failed" unless Dir.exist?(tmp_version_root)
+
           Dir.chdir(tmp_version_root) do
             File.write('Gemfile', "gem 'diffcrypt', path: '../../..'", mode: 'a')
             run_command('bundle', 'install')
