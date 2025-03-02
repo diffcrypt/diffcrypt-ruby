@@ -7,12 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
-## [0.8.0.rc1]
+## [0.8.0]
 
 ### Added
 
 - Extended ruby 3.x support
-- Added Rails 8 support
+- Added Rails 8 support (#143)
 
 ### Changed
 
