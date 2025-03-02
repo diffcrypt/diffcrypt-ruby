@@ -80,6 +80,14 @@ module Diffcrypt
         writing read, &block
       end
 
+      def validate! # :nodoc:
+        deserialize(read).each_key do |key|
+          key.to_sym
+        rescue NoMethodError
+          raise InvalidKeyError.new(content_path, key)
+        end
+      end
+
       protected
 
       # rubocop:disable Metrics/AbcSize
