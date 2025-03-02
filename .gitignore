@@ -8,3 +8,5 @@
 /tmp/
 Gemfile.lock
 *.gem
+.ruby-version
+gemfiles/*.lock

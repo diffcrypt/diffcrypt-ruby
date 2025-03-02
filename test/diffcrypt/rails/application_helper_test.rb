@@ -7,10 +7,10 @@ require 'diffcrypt/rails/application_helper'
 class MockApplication
   include Diffcrypt::Rails::ApplicationHelper
 
+  Config = Struct.new(:require_master_key)
+
   def config
-    OpenStruct.new(
-      require_master_key: true,
-    )
+    Config.new(true)
   end
 end
 

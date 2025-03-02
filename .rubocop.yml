@@ -1,6 +1,6 @@
 AllCops:
   NewCops: enable
-  TargetRubyVersion: 2.6
+  TargetRubyVersion: 3.0
 
 Style/ClassAndModuleChildren:
   Exclude:
@@ -23,10 +23,6 @@ Style/TrailingCommaInHashLiteral:
   EnforcedStyleForMultiline: consistent_comma
 Style/AccessorGrouping:
   EnforcedStyle: separated
-Style/OpenStructUse:
-  Exclude:
-    - test/*_test.rb
-    - test/**/*_test.rb
 
 Layout/LineLength:
   Exclude:

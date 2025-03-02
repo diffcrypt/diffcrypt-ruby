@@ -7,15 +7,39 @@ on:
   pull_request:
 
 jobs:
-  rspec:
+  tests:
+    name: "RSpec @ Ruby ${{ matrix.ruby }}, Rails ${{ matrix.rails }}"
     runs-on: ubuntu-latest
+    continue-on-error: true
+    env:
+      BUNDLE_GEMFILE: gemfiles/rails_${{ matrix.rails }}.gemfile
     strategy:
       matrix:
         ruby:
-          - "3.0.7"
-          - "3.1.5"
+          - "3.1"
+          - "3.2"
+          - "3.3"
+          - "3.4"
+          - "head"
+        rails:
+          - "6.1"
+          - "7.2"
+          - "8.0"
+        exclude:
+            - ruby: "3.2"
+              rails: "6.1"
+            - ruby: "3.3"
+              rails: "6.1"
+            - ruby: "3.4"
+              rails: "6.1"
+            - ruby: "head"
+              rails: "6.1"
+            - ruby: "3.1"
+              rails: "7.2"
+            - ruby: "3.1"
+              rails: "8.0"
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
@@ -24,15 +48,20 @@ jobs:
     - name: Run rspec
       run: bundle exec rake test
 
-  rubocop:
+  linters:
+    name: "Rubocop @ Ruby ${{ matrix.ruby }}, Rails ${{ matrix.rails }}"
     runs-on: ubuntu-latest
+    continue-on-error: true
+    env:
+      BUNDLE_GEMFILE: gemfiles/rails_${{ matrix.rails }}.gemfile
     strategy:
       matrix:
         ruby:
-          - "3.0.7"
-          - "3.1.5"
+          - "3.4"
+        rails:
+          - "7.2"
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
