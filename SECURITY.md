@@ -8,8 +8,8 @@ Since the internal APIs may change dramatically until v1.0, here is a list of th
 
 | Version | Supported          |
 | ------- | ------------------ |
-| 0.5.1   | :white_check_mark: |
-| 0.6.x   | :white_check_mark: |
+| 0.7.0   | :x:                |
+| 0.8.x   | :white_check_mark: |
 
 
 

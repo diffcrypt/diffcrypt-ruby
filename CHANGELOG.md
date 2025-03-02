@@ -7,7 +7,42 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
-## Unreleased
+## [0.8.0.rc1]
+
+### Added
+
+- Extended ruby 3.x support
+- Added Rails 8 support
+
+### Changed
+
+- Improved testing against multiple ruby/rails versions
+- Improved support for nested arrays and hashes in YAML files
+
+### Removed
+
+- Removed code coverage reporting
+
+
+
+## [0.7.0] - 2024-05-26
+
+### Added
+
+- Added ruby 3.1. support
+- Added rails 7.1 support
+
+### Changed
+
+- Updated all dependencies
+
+### Removed
+
+- Dropped ruby 2.x support
+
+
+
+## [0.6.1] - 2022-02-06
 
 ### Fixed
 
