@@ -6,7 +6,7 @@ source 'https://rubygems.org'
 gemspec
 
 gem 'appraisal'
-gem 'minitest', '~> 5.0'
+gem 'minitest', '~> 6.0'
 gem 'minitest-reporters', '~> 1.7.1'
 gem 'rake', '~> 13.2'
 gem 'rubocop', '~> 1.73.2'
